@@ -1,0 +1,11 @@
+{
+  "id": "CloverMod",
+  "name": "蜂蜜四叶草",
+  "author": "holdyoung",
+  "description": "杀戮尖塔2模组，提升稀有卡牌的获取概率",
+  "version": "v1.0.0",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": [],
+  "affects_gameplay": false
+}
