@@ -8,7 +8,7 @@ namespace CloverMod
 {
     public class CloverObtain
     {
-        // 获得初始遗物后添加自定义遗物
+        // 获得初始遗物后追加自定义遗物
         [HarmonyPatch(typeof(Player), "PopulateStartingRelics")]
         public class ReceivePostCreateStartingRelics
         {

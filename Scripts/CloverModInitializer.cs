@@ -15,8 +15,8 @@ namespace CloverMod
             // 传入参数随意，只要不和其他人撞车即可
             var harmony = new Harmony("holdyoung.clovermod");
             harmony.PatchAll();
-            // 使得tscn可以加载自定义脚本
-            Log.Debug("**************** CloverMod initialized ****************");
+            // 将自定义的遗物类注册到对应的遗物池
+            Log.Info("**************** CloverMod initialized ****************");
             ModHelper.AddModelToPool<RelicPoolModel, CloverRelic>();
            
         }
