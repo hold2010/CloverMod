@@ -12,7 +12,7 @@ using MegaCrit.Sts2.Core.Logging;
 
 namespace CloverMod;
 
-public class CloverRelic : RelicModel
+public sealed class CloverRelic : RelicModel, IPoolModel
 {
     // 是否正在播放激活动画
     private bool _isActivating;
@@ -26,6 +26,9 @@ public class CloverRelic : RelicModel
     // 遗物稀有度：初始遗物
 	public override RelicRarity Rarity => RelicRarity.Starter;
 
+    // 解锁遗物
+    public string EnergyColorName => "colorless";
+
     // 显示计数器
 	public override bool ShowCounter => true;
 
@@ -36,7 +39,7 @@ public class CloverRelic : RelicModel
 		{
 			if (!IsActivating)
 			{
-				return CombatsSeen % _triggerInterval;
+				return CloverCombatsSeen % _triggerInterval;
 			}
 			return _triggerInterval;
 		}
@@ -57,7 +60,7 @@ public class CloverRelic : RelicModel
 	}
 
 	[SavedProperty]
-	public int CombatsSeen
+	public int CloverCombatsSeen
 	{
 		get
 		{
@@ -74,22 +77,22 @@ public class CloverRelic : RelicModel
 	{
 		get
 		{
-			if (CombatsSeen > 0)
+			if (CloverCombatsSeen > 0)
 			{
-				return CombatsSeen % _triggerInterval == 0;
+				return CloverCombatsSeen % _triggerInterval == 0;
 			}
 			return false;
 		}
 	}
 
-	public override bool IsAllowed(IRunState runState)
+    public override bool IsAllowed(IRunState runState)
 	{
         // 遗物获取限制：第三章宝箱前可获得
 		return RelicModel.IsBeforeAct3TreasureChest(runState);
 	}
 
     /// <summary>
-    /// 修改战斗胜利后的卡牌奖励：替换一张为稀有卡
+    /// 修改战斗结束后的卡牌奖励：替换其中一张为稀有卡
     /// </summary>
 	public override bool TryModifyCardRewardOptions(Player player, List<CardCreationResult> options, CardCreationOptions creationOptions)
 	{
@@ -129,7 +132,7 @@ public class CloverRelic : RelicModel
 	public override Task AfterCombatEnd(CombatRoom room)
 	{
         // 战斗结束后：计数+1 
-		CombatsSeen++;
+		CloverCombatsSeen++;
         // 满足条件则播放激活动画
 		if (IsInTriggeringCombat)
 		{
